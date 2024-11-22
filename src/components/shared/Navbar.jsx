@@ -1,13 +1,21 @@
 import { Link, NavLink } from "react-router-dom"
 import useAuth from "../../hooks/useAuth"
+import useRole from "../../hooks/useRole"
+import Loading from "./Loading"
 
 const Navbar = () => {
   const { user, userSignOut } = useAuth()
+  const [role, isLoading] = useRole()
+  const avatar =
+    "https://img.freepik.com/free-vector/young-prince-vector-illustration_1308-174367.jpg?ga=GA1.1.571930160.1728748920&semt=ais_hybrid"
 
   const links = (
     <>
       <li>
         <NavLink to={"/"}>Home</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/products"}>Products</NavLink>
       </li>
       <li>
         <NavLink to={"/about"}>About</NavLink>
@@ -17,6 +25,8 @@ const Navbar = () => {
       </li>
     </>
   )
+
+  if (isLoading) return <Loading />
 
   return (
     <div className="bg-slate-500 text-white">
@@ -70,8 +80,8 @@ const Navbar = () => {
               >
                 <div className="w-10 rounded-full">
                   <img
-                    alt="Tailwind CSS Navbar component"
-                    src="https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg?t=st=1731683204~exp=1731686804~hmac=a101a306d4e167f4b8ef54dd9241264f161c2d3f0fda7751d7ef8b5611379aae&w=360"
+                    alt="User logo"
+                    src={user?.photoURL || avatar}
                   />
                 </div>
               </div>
@@ -79,8 +89,14 @@ const Navbar = () => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-[1] mt-3 w-52 p-3 shadow"
               >
-                <li>{user?.displayName}</li>
-                <li className="mt-1">{user?.email}</li>
+                <div className="bg-gray-200 p-3 rounded-box">
+                  <li className="font-bold">{user?.displayName}</li>
+                  <li>{user?.email}</li>
+                  <li className="capitalize">{role}</li>
+                </div>
+                <li className="mt-2">
+                  <Link to={`/dashboard`}>Dashboard</Link>
+                </li>
                 <li className="mt-3">
                   <button
                     type="button"
