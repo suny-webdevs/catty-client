@@ -20,6 +20,7 @@ import Cart from "../pages/Dashboard/Buyer/Cart"
 import WishList from "../pages/Dashboard/Buyer/WishList"
 import BlockedUsers from "../pages/Dashboard/Admin/BlockedUsers"
 import Dashboard from "../pages/Dashboard/Dashboard"
+import UpdateProduct from "../pages/Dashboard/Seller/UpdateProduct"
 
 const route = createBrowserRouter(
   [
@@ -107,6 +108,14 @@ const route = createBrowserRouter(
           element: (
             <SellerRoute>
               <AddProducts />
+            </SellerRoute>
+          ),
+        },
+        {
+          path: "update-product/:id",
+          element: (
+            <SellerRoute>
+              <UpdateProduct />
             </SellerRoute>
           ),
         },

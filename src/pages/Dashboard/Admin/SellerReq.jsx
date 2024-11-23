@@ -51,6 +51,7 @@ const SellerReq = () => {
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -78,6 +79,7 @@ const SellerReq = () => {
                   <br />
                   <span className="badge badge-ghost badge-sm">Email</span>
                 </td>
+                <td className="badge badge-sm"></td>
                 <td>
                   <button
                     onClick={() => handleReqAccept(user?.email)}
