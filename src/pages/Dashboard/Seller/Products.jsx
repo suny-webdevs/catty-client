@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import useAxios from "../../../hooks/useAxios"
 import Loading from "../../../components/shared/Loading"
 import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 const Products = () => {
   const axios = useAxios()
@@ -14,7 +15,7 @@ const Products = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: "products",
+    queryKey: ["products"],
     queryFn: async () => {
       const { data } = await axios.get("/products")
       return data?.products
@@ -22,11 +23,19 @@ const Products = () => {
   })
 
   const handleUpdate = async (id) => {
-    navigate(`/update-product/${id}`)
+    navigate(`/dashboard/products/${id}`)
   }
 
-  const handleDelete = async () => {
-    refetch()
+  const handleDelete = async (id) => {
+    try {
+      const { data } = await axios.delete(`/delete-product/${id}`)
+      if (data?.data?.deletedCount > 0) {
+        toast.success(data.message)
+        refetch()
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   if (isLoading) return <Loading />
@@ -81,7 +90,7 @@ const Products = () => {
                     Update
                   </button>
                   <button
-                    onClick={() => handleDelete(product?.email)}
+                    onClick={() => handleDelete(product?._id)}
                     type="button"
                     className="btn btn-xs btn-ghost text-error"
                   >

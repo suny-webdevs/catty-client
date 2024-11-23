@@ -112,12 +112,17 @@ const route = createBrowserRouter(
           ),
         },
         {
-          path: "update-product/:id",
+          path: "products/:id",
           element: (
             <SellerRoute>
               <UpdateProduct />
             </SellerRoute>
           ),
+          loader: async ({ params }) => {
+            return await fetch(
+              `${import.meta.env.VITE_BASE_URL}/products/${params.id}`
+            )
+          },
         },
         {
           path: "orders",
